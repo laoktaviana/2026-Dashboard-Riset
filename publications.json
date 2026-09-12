@@ -1,0 +1,117 @@
+{
+ "url": "https://sinta.kemdiktisaintek.go.id/authors/profile/6973450",
+ "sinta_id": "6973450",
+ "updated": "2026-09-11 09:02 UTC (seed awal)",
+ "stats": {
+  "score": 146,
+  "score3": 80,
+  "hindex": 1,
+  "i10": 0,
+  "gindex": 2,
+  "artScopus": 10,
+  "cit": 2,
+  "artGS": 7
+ },
+ "pubs": [
+  {
+   "t": "A Lightweight CNN-Based Deep Feature Extraction Framework for EEG Fatigue Detection with Multiple Evaluation Protocols",
+   "v": "SImL 2026 Intl. Conf. on Smart Computing, IoT and Machine Learning",
+   "q": "Conf",
+   "y": "2026",
+   "ord": "2 of 4",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105047228507&origin=resultslist"
+  },
+  {
+   "t": "A Comparative Analysis of Deep Learning Models in Classifying the Level of Focus in Subjects with Pornography Addiction Based on EEG Signals",
+   "v": "2026 IEEE Intl. Conf. on Industry 4.0, AI and Communication",
+   "q": "Conf",
+   "y": "2026",
+   "ord": "3 of 4",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105046946142&origin=resultslist"
+  },
+  {
+   "t": "EEG Spectral Feature Compression and Emotion Recognition using Zero-Dimension Feature Network (ZFN)",
+   "v": "Biomedical Signal Processing and Control",
+   "q": "Q1",
+   "y": "2026",
+   "ord": "1 of 2",
+   "cit": 2,
+   "cat": "jurnal",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105027728233&origin=resultslist"
+  },
+  {
+   "t": "Weakly Supervised Sleep Spindle Detection Using Sigma-Band Pseudo-Labeling and Random Forest",
+   "v": "2026 IEEE Intl. Conf. on Signals and Systems (ICSigSys 2026)",
+   "q": "Conf",
+   "y": "2026",
+   "ord": "2 of 5",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105046519912&origin=resultslist"
+  },
+  {
+   "t": "Deep Learning-Based Segmentation for Porosity Analysis of PMMA from SEM Images",
+   "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)",
+   "q": "Conf",
+   "y": "2025",
+   "ord": "2 of 5",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031138720&origin=resultslist"
+  },
+  {
+   "t": "A Comparative Study of AI-Based SEM Image Processing for Automated Microstructure Analysis of Medical Electrode Materials Using U-Net, K-Means, and Otsu",
+   "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)",
+   "q": "Conf",
+   "y": "2025",
+   "ord": "2 of 4",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031073367&origin=resultslist"
+  },
+  {
+   "t": "Biometric Gait Recognition using BlazePose and Deep Learning",
+   "v": "2025 12th Intl. Conf. on Information Technology, Computer and Electrical Engineering (ICITACEE)",
+   "q": "Conf",
+   "y": "2025",
+   "ord": "4 of 6",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105029766126&origin=resultslist"
+  },
+  {
+   "t": "Comparative Analysis of Image Segmentation Methods for Porosity Evaluation of Wound Dressings Using Python and ImageJ",
+   "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)",
+   "q": "Conf",
+   "y": "2025",
+   "ord": "2 of 5",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031121050&origin=resultslist"
+  },
+  {
+   "t": "Deep learning-based decoding in non-orthogonal multiple access (NOMA) for high altitude platform systems (HAPS)",
+   "v": "Telecommunication Systems",
+   "q": "Q2",
+   "y": "2025",
+   "ord": "3 of 3",
+   "cit": 0,
+   "cat": "jurnal",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105006903633&origin=resultslist"
+  },
+  {
+   "t": "Adaptive Thresholding-Based Computational Analysis of Porosity in SEM Images of Poly(methyl methacrylate)",
+   "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)",
+   "q": "Conf",
+   "y": "2025",
+   "ord": "2 of 5",
+   "cit": 0,
+   "cat": "proc",
+   "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031070959&origin=resultslist"
+  }
+ ]
+}

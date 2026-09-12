@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAO-DashboardRiset</title>
+<style>
+:root{
+  --ink:#0d1b2a; --paper:#f6f4ee; --line:#d8d2c4;
+  --trace:#1d7874; --trace2:#e07a5f; --amber:#e6a417;
+  --aur:#1d7874; --dzi:#8c5a9e; --slate:#5b6b7a;
+  --ok:#2f8f5b; --run:#e6a417;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  background:var(--paper); color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:"SFMono-Regular",ui-monospace,"Cascadia Mono","Roboto Mono",Menlo,monospace}
+
+/* ---------- HERO ---------- */
+header.hero{
+  position:relative; overflow:hidden;
+  background:var(--ink); color:var(--paper);
+  border-bottom:3px solid var(--trace);
+}
+.hero svg.ecg{position:absolute;inset:0;width:100%;height:100%;opacity:.28}
+.hero .wrap{position:relative;padding:54px 24px 46px}
+.kicker{font-family:inherit;font-size:.82rem;letter-spacing:.02em;color:#a9c7c4;margin-bottom:10px}
+h1.title{font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.02;font-weight:600;letter-spacing:-.01em;max-width:16ch}
+.subtitle{margin-top:14px;font-size:1.02rem;color:#cfd8de;max-width:52ch;line-height:1.5}
+.pulse{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--amber);margin-right:8px;box-shadow:0 0 0 0 rgba(230,164,23,.7);animation:beat 2.4s infinite}
+@keyframes beat{0%{box-shadow:0 0 0 0 rgba(230,164,23,.6)}70%{box-shadow:0 0 0 12px rgba(230,164,23,0)}100%{box-shadow:0 0 0 0 rgba(230,164,23,0)}}
+
+/* ---------- VITALS STRIP ---------- */
+.vitals{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:34px}
+.vital{background:var(--paper);padding:22px;display:flex;flex-direction:column;justify-content:flex-start}
+.vital .num{font-size:2.6rem;line-height:1;font-weight:600;letter-spacing:-.02em;color:var(--ink);min-height:1em}
+.vital .lbl{font-size:.86rem;color:var(--slate);margin-top:6px}
+.vital .bar{height:3px;margin-top:12px;background:var(--line);position:relative;overflow:hidden}
+.vital .bar i{position:absolute;left:0;top:0;height:100%;background:var(--trace)}
+.vital.v2 .bar i{background:var(--dzi)} .vital.v3 .bar i{background:var(--run)} .vital.v4 .bar i{background:var(--ok)}
+
+/* ---------- SECTIONS ---------- */
+section{padding:52px 0 8px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:26px}
+.sec-head h2{font-size:1.5rem;font-weight:600;letter-spacing:-.01em}
+.sec-head .count{font-size:.9rem;color:var(--slate)} 
+.sec-head .rule{flex:1}
+
+/* ---------- FILTER ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{font-family:inherit;font-size:.9rem;padding:7px 15px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;border-radius:2px;transition:background .15s,color .15s,border-color .15s}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:middle}
+
+/* ---------- TOPIC LEDGER ---------- */
+.ledger{display:grid;gap:0;border-top:1px solid var(--line)}
+.row{
+  display:grid;grid-template-columns:52px 1fr 132px;gap:18px;align-items:start;
+  padding:18px 8px;border-bottom:1px solid var(--line);cursor:pointer;
+  transition:background .12s;
+}
+.row:hover{background:#efece3}
+.row .idx{font-size:1.5rem;font-weight:600;color:var(--line);line-height:1}
+.row.aur .idx{color:var(--aur)} .row.dzi .idx{color:var(--dzi)}
+.row .main .top{font-size:1.06rem;font-weight:600;line-height:1.3}
+.row .main .meta{margin-top:7px;font-size:.85rem;color:var(--slate);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.tag{font-size:.74rem;padding:2px 9px;border-radius:2px;border:1px solid currentColor}
+.tag.aur{color:var(--aur)} .tag.dzi{color:var(--dzi)}
+.tag.ec{color:var(--trace2)}
+.row .right{text-align:right;font-size:.8rem;color:var(--slate)}
+.row .chev{transition:transform .2s;display:inline-block}
+.row[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.detail{grid-column:1/-1;overflow:hidden;max-height:0;transition:max-height .32s ease}
+.detail.open{max-height:900px}
+.detail-in{padding:6px 8px 20px 70px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.detail h4{font-size:.82rem;color:var(--trace);margin-bottom:8px;font-weight:600}
+.detail p{font-size:.94rem;line-height:1.55;color:#2a3744}
+.detail ul{list-style:none;font-size:.9rem;line-height:1.5}
+.detail ul li{padding-left:16px;position:relative;margin-bottom:3px}
+.detail ul li::before{content:"›";position:absolute;left:0;color:var(--trace)}
+.refs{grid-column:1/-1;margin-top:4px;padding-top:14px;border-top:1px dashed var(--line)}
+.refs ol{margin-left:18px;font-size:.86rem;line-height:1.5;color:#33414d}
+.refs ol li{margin-bottom:5px}
+.refs .src{color:var(--slate);font-style:italic}
+
+/* ---------- SUPERVISION ---------- */
+.superv{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+@media(max-width:780px){.superv{grid-template-columns:1fr}}
+.col-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.col-h .badge{font-size:.78rem;padding:3px 10px;border-radius:20px;color:#fff}
+.badge.run{background:var(--run)} .badge.ok{background:var(--ok)}
+.col-h h3{font-size:1.15rem;font-weight:600}
+.stu{border-left:3px solid var(--line);padding:12px 0 12px 16px;margin-bottom:4px}
+.stu.run{border-color:var(--run)} .stu.ok{border-color:var(--ok)}
+.stu .nm{font-weight:600;font-size:1rem}
+.stu .jd{font-size:.88rem;color:var(--slate);line-height:1.45;margin-top:3px}
+
+/* progress ring for supervision balance */
+.balance{display:flex;align-items:center;gap:20px;margin:8px 0 30px;padding:20px;background:#efece3;border:1px solid var(--line)}
+.balance svg{flex:none}
+.balance .txt .b1{font-size:1.6rem;font-weight:600}
+.balance .txt .b2{font-size:.88rem;color:var(--slate)}
+
+footer{margin-top:50px;border-top:1px solid var(--line);padding:26px 0 50px;color:var(--slate);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:680px){
+  .vitals{grid-template-columns:repeat(2,1fr)}
+  .row{grid-template-columns:38px 1fr;gap:12px}
+  .row .right{display:none}
+  .detail-in{grid-template-columns:1fr;padding-left:50px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.statgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:24px}
+@media(max-width:680px){.statgrid{grid-template-columns:repeat(3,1fr)}}
+.stat{background:var(--paper);padding:14px 12px;text-align:center}
+.stat .v{font-size:1.7rem;font-weight:600;color:var(--trace);line-height:1}
+.stat .k{font-size:.72rem;color:var(--slate);margin-top:5px;line-height:1.2}
+.publist{border-top:1px solid var(--line)}
+.pub{display:grid;grid-template-columns:64px 1fr 58px;gap:14px;align-items:start;padding:14px 6px;border-bottom:1px solid var(--line)}
+.pub .yr{font-family:monospace;font-size:.9rem;color:var(--slate)}
+.pub .pt{font-size:.98rem;font-weight:600;line-height:1.32}
+.pub .pv{font-size:.83rem;color:var(--slate);margin-top:4px;font-style:italic}
+.pub .pm{font-size:.78rem;color:var(--slate);margin-top:4px}
+.qbadge{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:3px;text-align:center;align-self:start}
+.q-Q1{background:#2f8f5b;color:#fff}.q-Q2{background:#1d7874;color:#fff}.q-Conf{background:#e9e4d6;color:#5b6b7a}
+@media(max-width:680px){.pub{grid-template-columns:52px 1fr;gap:10px}.pub .qbadge{grid-column:1;justify-self:start;margin-top:4px}}
+.prodi-h{font-size:.82rem;font-weight:700;color:var(--trace);text-transform:uppercase;letter-spacing:.03em;margin:4px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+
+.prodi-title{font-size:1.15rem;font-weight:600;color:var(--ink);padding-bottom:8px;margin-bottom:16px;border-bottom:2px solid var(--trace)}
+.statusgrp{margin-bottom:22px}
+.col-h h4.sh{font-size:1rem;font-weight:600}
+
+.proditabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.ptab{font-family:inherit;font-size:.95rem;padding:9px 18px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;border-radius:3px;transition:background .15s,color .15s,border-color .15s;display:flex;align-items:center;gap:9px}
+.ptab[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ptab .pcount{font-family:monospace;font-size:.82rem;opacity:.7}
+#superv{display:block}
+#superv > div{max-width:640px}
+
+.pubtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.pubtab{font-family:inherit;font-size:.9rem;padding:8px 15px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;border-radius:3px;transition:background .15s,color .15s,border-color .15s;display:flex;align-items:center;gap:8px}
+.pubtab[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pubtab .pcount{font-family:monospace;font-size:.8rem;opacity:.7}
+.prodi-sub{font-size:.9rem;font-weight:700;color:var(--trace);text-transform:uppercase;letter-spacing:.03em;margin:2px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.statustabs .ptab{font-size:.85rem;padding:6px 13px}
+.statustabs{margin-top:-8px}
+.plink{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--trace);transition:color .15s}
+.plink:hover{color:var(--trace)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="ecg" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+    <path id="ecgpath" fill="none" stroke="#4fb3ad" stroke-width="2"
+      d="M0,150 L180,150 L200,150 L210,120 L220,180 L230,150 L300,150 L330,150 L340,60 L352,240 L364,150 L440,150 L470,150 L480,120 L490,180 L500,150 L600,150 L630,150 L640,60 L652,240 L664,150 L740,150 L770,150 L780,120 L790,180 L800,150 L900,150 L930,150 L940,60 L952,240 L964,150 L1040,150 L1070,150 L1080,120 L1090,180 L1100,150 L1200,150"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker mono">S1 TEKNIK BIOMEDIS · UNIVERSITAS TELKOM · GANJIL 2026/2027</div>
+    <h1 class="title">Dashboard Riset</h1>
+    <p class="subtitle"><span class="pulse"></span>Laily Ade Oktaviana (LAO)<br><a href="https://linktr.ee/lailyadeo" target="_blank" rel="noopener" style="color:#a9c7c4;text-decoration:underline">linktr.ee/lailyadeo</a></p>
+    <div class="vitals" id="vitals"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="publikasi">
+    <div class="sec-head"><h2>Publikasi &amp; SINTA</h2><span class="count" id="pubcount"></span><span class="rule"></span></div>
+    <div class="statgrid" id="statgrid"></div>
+    <div class="pubtabs" id="pubtabs"></div>
+    <div class="publist" id="publist"></div>
+    <p style="margin-top:14px;font-size:.85rem;color:var(--slate)">Sumber: <a id="sintalink" href="#" target="_blank" rel="noopener" style="color:var(--trace)">Profil SINTA</a> · <span id="sintastamp">memuat data…</span></p>
+  </section>
+  <section id="bimbingan">
+    <div class="sec-head"><h2>Status Bimbingan</h2><span class="rule"></span></div>
+    <div class="balance">
+      <svg width="92" height="92" viewBox="0 0 92 92" id="ring" aria-hidden="true"></svg>
+      <div class="txt"><div class="b1" id="bdone"></div><div class="b2">tugas akhir selesai dari total bimbingan</div></div>
+    </div>
+    <div class="proditabs" id="proditabs"></div>
+    <div class="proditabs statustabs" id="statustabs"></div>
+    <div id="superv"></div>
+  </section>
+  <section id="topik">
+    <div class="sec-head"><h2>Topik Ditawarkan</h2><span class="count" id="tcount"></span><span class="rule"></span></div>
+    <div class="filters" id="filters"></div>
+    <div class="ledger" id="ledger"></div>
+  </section>
+
+</main>
+
+<footer><div class="wrap">
+  <span>LAO - 2026</span>
+  <span class="mono" id="stamp"></span>
+</div></footer>
+
+<script>
+window.__DATA_FB__ = {"topics": [{"no": 1, "kbk": "Instrumentasi, Kontrol, IoT (AUR)", "topik": "Pengembangan Modul Akuisisi Multi-Biosignal Real-Time (ECG, EMG, PPG) Multi-Kanal untuk Sistem Pemantauan Kesehatan", "kualifikasi": ["1. Kompetensi dalam akuisisi sinyal dan pengolahan data biosignal", "2. Menguasai perancangan perangkat keras (analog front-end, ADC)", "3. Pengalaman pengembangan perangkat lunak dan sistem real-time", "4. Dasar sinyal fisiologis (ECG, EMG, PPG)"], "catatan": "Sub-topik akuisisi dari penelitian payung (Ketua Peneliti). Fokus: perancangan modul multi-kanal ECG/EMG/PPG, filtering, dan sampling real-time.", "ec": "Ya", "deskripsi": "Merancang modul yang menangkap tiga sinyal (ECG, EMG, PPG) sekaligus secara real-time dengan kualitas baik. Fokus di HULU: bagaimana sinyal ditangkap dengan benar. Sub-topik payung penelitian.", "hardware": "Analog front-end (penguat & filter per sinyal), ADC/mikrokontroler, elektroda ECG/EMG, sensor PPG, catu daya, penyimpanan (SD/serial). Alat medis referensi untuk validasi sinyal."}, {"no": 2, "kbk": "Instrumentasi, Kontrol, IoT (AUR)", "topik": "Pengembangan Sistem Transmisi Data Biosignal Nirkabel Berbasis WBAN dan IoT untuk Pemantauan Kesehatan Jarak Jauh", "kualifikasi": ["1. Pengetahuan tentang sistem wireless dan jaringan WBAN", "2. Pemahaman tentang cloud dan IoT", "3. Pengalaman pengembangan perangkat lunak dan sistem real-time", "4. Dasar komunikasi data dan protokol nirkabel"], "catatan": "Sub-topik transmisi/konektivitas dari penelitian payung. Fokus: pengiriman data biosignal secara nirkabel (WBAN), integrasi cloud/IoT, dan dashboard pemantauan jarak jauh.", "ec": "Ya", "deskripsi": "Merancang sistem pengiriman data biosignal dari tubuh pasien ke penerima jarak jauh via nirkabel (WBAN) dan cloud/IoT. Fokus di HILIR: bagaimana data dikirim andal & real-time. Sub-topik inti telekomunikasi.", "hardware": "Modul mikrokontroler + radio nirkabel (BLE/WiFi/LoRa), gateway/koordinator, server/cloud IoT, dashboard pemantauan. Data dari modul C1 atau data dummy/rekaman."}, {"no": 3, "kbk": "Instrumentasi, Kontrol, IoT (AUR)", "topik": "Rancang Bangun Sistem Pengukuran Kecepatan dan Jarak Berjalan Berbasis Sensor Optical Flow", "kualifikasi": ["1. Menguasai pemrograman mikrokontroler (Arduino)", "2. Pemahaman komunikasi SPI dan pembacaan sensor", "3. Dasar pengolahan sinyal dan analisis data", "4. Kemampuan perancangan perangkat keras (elektronika)"], "catatan": "Sensor didesain untuk drone; tantangan utama pada validasi ke gerak manusia (perlu pembanding IMU/jalur ukur). Cocok untuk mahasiswa yang kuat di embedded.", "ec": "Ya", "deskripsi": "Membangun perangkat portabel yang mengukur kecepatan dan jarak berjalan seseorang menggunakan sensor optical flow (deteksi pergerakan permukaan, seperti pada mouse) tanpa GPS. Output: gait speed dan jarak tempuh yang relevan secara klinis.", "hardware": "Sensor PMW3901 (optical flow), ESP32 DevKit, sensor jarak VL53L0X (jaga jarak ke lantai), IMU MPU6050 (pembanding), baterai LiPo + TP4056, OLED (opsional), casing."}, {"no": 4, "kbk": "Instrumentasi, Kontrol, IoT (AUR)", "topik": "Sistem Pemantauan Paparan Partikulat (PM2.5) Personal dengan Kalibrasi untuk Penilaian Kualitas Udara Dalam Ruangan", "kualifikasi": ["1. Menguasai pemrograman mikrokontroler (Arduino)", "2. Pemahaman pembacaan sensor analog (ADC)", "3. Dasar statistika/regresi untuk kalibrasi sensor", "4. Pemahaman IoT dan penyimpanan data"], "catatan": "Sensor ber-LOD tinggi & dynamic range terbatas, sehingga kalibrasi wajib dan menjadi kontribusi ilmiah. Membutuhkan sensor referensi PM.", "ec": "Tidak", "deskripsi": "Membangun alat pemantau paparan partikulat (PM2.5) personal untuk kualitas udara dalam ruangan, dengan fokus kalibrasi agar pembacaan sensor murah menjadi akurat.", "hardware": "Sensor Sharp GP2Y1010AU0F (+ resistor 150ohm & kapasitor 220uF), ESP32 DevKit, DHT22 (suhu/kelembapan), baterai + TP4056, OLED (opsional), casing. Sensor referensi PM (mis. PMS7003) untuk kalibrasi."}, {"no": 1, "kbk": "Sinyal, Citra (DZI)", "topik": "Deteksi Stres Kognitif Berbasis Fusi Sinyal EEG dan Sinyal Fisiologis Multimodal Menggunakan Machine Learning", "kualifikasi": ["1. Pengetahuan dalam bidang EEG dan neurosignal", "2. Kompetensi akuisisi dan pengolahan sinyal biosignal", "3. Keahlian pemrograman (Python) dan machine learning", "4. Pemahaman sinkronisasi dan fusi data multimodal"], "catatan": "Paling sinkron dengan riset lab (EEG stress detection, ZFN). Menggunakan. Tantangan pada sinkronisasi & fusi dua modalitas.", "ec": "Ya", "deskripsi": "Mengembangkan sistem deteksi stres kognitif dengan menggabungkan sinyal otak (EEG) dan sinyal fisiologis perifer (PPG, EDA, suhu kulit) menggunakan machine learning. Fokus pada fusi multimodal - pelengkap riset EEG murni yang sudah berjalan.", "hardware": "OpenBCI EEG Headband Kit (akuisisi EEG), EmotiBit (PPG, EDA, suhu, IMU), laptop untuk perekaman & pemrosesan. (Alat sudah tersedia.)"}, {"no": 2, "kbk": "Sinyal, Citra (DZI)", "topik": "Sistem Deteksi Stres Berbasis Sinyal Fisiologis Wearable (EDA, PPG, Suhu Kulit) Menggunakan Machine Learning", "kualifikasi": ["1. Pengetahuan dalam bidang biometrik dan sensing", "2. Pengalaman dalam teknologi wearable", "3. Keahlian pemrograman (Python) dan pengolahan data", "4. Kompetensi machine learning dasar"], "catatan": "Paling ringan di Kelompok B (tanpa kompleksitas EEG). Hanya menggunakan. Cocok untuk mahasiswa dengan fokus ML/data.", "ec": "Ya", "deskripsi": "Mengembangkan sistem deteksi stres hanya dari sinyal fisiologis wearable (tanpa EEG), memanfaatkan EmotiBit + machine learning. Paling ringan di kelompok riset biosignal.", "hardware": "EmotiBit (EDA, PPG/BVP, suhu kulit, IMU), laptop untuk perekaman & pemrosesan. (Alat sudah tersedia.)"}, {"no": 3, "kbk": "Sinyal, Citra (DZI)", "topik": "Pengembangan Algoritma Deteksi Dini Gangguan Kesehatan Berbasis Sinyal Multi-Biosignal (ECG, EMG, PPG) Menggunakan Machine Learning", "kualifikasi": ["1. Kompetensi dalam pengolahan sinyal dan ekstraksi fitur biosignal", "2. Keahlian pemrograman (Python) dan machine learning", "3. Pemahaman analisis data dan klasifikasi", "4. Dasar sinyal fisiologis (ECG, EMG, PPG)"], "catatan": "Sub-topik analitik/deteksi dini dari penelitian payung. Fokus: ekstraksi fitur multi-biosignal, deteksi anomali/dini gangguan kesehatan dengan ML.", "ec": "Ya", "deskripsi": "Mengembangkan algoritma yang menganalisis sinyal ECG/EMG/PPG untuk mendeteksi dini anomali/gangguan kesehatan menggunakan machine learning. Sub-topik analitik payung penelitian.", "hardware": "Laptop/GPU untuk pemrosesan & ML. Data biosignal dari modul C1, dataset publik (mis. MIT-BIH), atau data rekaman."}], "berjalan": [{"nama": "Mohammad Cakradeva Arhyatama", "judul": "Perancangan PCB Wearable EEG Berbasis ADS1299 dan ESP32-S3 untuk Akuisisi Sinyal Otak"}, {"nama": "Syifa Nur Asfiani", "judul": "Analisis Sinyal EEG untuk Deteksi Stres sebagai Dasar Pengembangan Sistem Neurofeedback"}, {"nama": "Zahra Ramadhina", "judul": "Pengembangan Aplikasi Pengolahan Sinyal EEG secara Real-Time untuk Deteksi Stres dan Neurofeedback Berbasis Kecerdasan Buatan"}], "selesai": [{"nama": "Az-Zahra Puteri Nur Intan", "judul": "Pengembangan Aplikasi Mobile EEG dengan Implementasi Menggunakan Transmisi Data Berbasis Bluetooth"}, {"nama": "Kirenina Fariha Safitri", "judul": "Implementasi pada Aplikasi Mobile EEG untuk Deteksi Emosi dengan Transmisi Data Real-Time melalui WiFi/Internet"}, {"nama": "Lathifah Husnun", "judul": "Pengembangan Sistem Deteksi Emosi Berbasis EEG melalui Integrasi Aplikasi Mobile dan Layanan Cloud"}, {"nama": "Yaumil Nadia Rahmaniar", "judul": "Deteksi Stres Menggunakan Wearable EEG pada Tugas Presentasi Akademik"}, {"nama": "Rizkya Yasmin", "judul": "Klasifikasi Emosi Menggunakan Wearable EEG pada Pemicu Emosi Positif dan Negatif"}, {"nama": "Adinda Shal Sabillah Kuncahyo", "judul": "Deteksi Perubahan Emosi Menggunakan Wearable EEG pada Video yang Mengubah Emosi"}, {"nama": "Shally Angelita Amanda", "judul": "Wearable EEG untuk Deteksi Stres dalam Kehidupan Sehari-hari: Pengujian di Lingkungan Alamiah"}]}; let DATA = window.__DATA_FB__;
+window.__SINTA_FALLBACK__ = {"url": "https://sinta.kemdiktisaintek.go.id/authors/profile/6973450", "sinta_id": "6973450", "updated": "2026-09-11 09:02 UTC (seed awal)", "stats": {"score": 146, "score3": 80, "hindex": 1, "i10": 0, "gindex": 2, "artScopus": 10, "cit": 2, "artGS": 7}, "pubs": [{"t": "A Lightweight CNN-Based Deep Feature Extraction Framework for EEG Fatigue Detection with Multiple Evaluation Protocols", "v": "SImL 2026 Intl. Conf. on Smart Computing, IoT and Machine Learning", "q": "Conf", "y": "2026", "ord": "2 of 4", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105047228507&origin=resultslist"}, {"t": "A Comparative Analysis of Deep Learning Models in Classifying the Level of Focus in Subjects with Pornography Addiction Based on EEG Signals", "v": "2026 IEEE Intl. Conf. on Industry 4.0, AI and Communication", "q": "Conf", "y": "2026", "ord": "3 of 4", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105046946142&origin=resultslist"}, {"t": "EEG Spectral Feature Compression and Emotion Recognition using Zero-Dimension Feature Network (ZFN)", "v": "Biomedical Signal Processing and Control", "q": "Q1", "y": "2026", "ord": "1 of 2", "cit": 2, "cat": "jurnal", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105027728233&origin=resultslist"}, {"t": "Weakly Supervised Sleep Spindle Detection Using Sigma-Band Pseudo-Labeling and Random Forest", "v": "2026 IEEE Intl. Conf. on Signals and Systems (ICSigSys 2026)", "q": "Conf", "y": "2026", "ord": "2 of 5", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105046519912&origin=resultslist"}, {"t": "Deep Learning-Based Segmentation for Porosity Analysis of PMMA from SEM Images", "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)", "q": "Conf", "y": "2025", "ord": "2 of 5", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031138720&origin=resultslist"}, {"t": "A Comparative Study of AI-Based SEM Image Processing for Automated Microstructure Analysis of Medical Electrode Materials Using U-Net, K-Means, and Otsu", "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)", "q": "Conf", "y": "2025", "ord": "2 of 4", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031073367&origin=resultslist"}, {"t": "Biometric Gait Recognition using BlazePose and Deep Learning", "v": "2025 12th Intl. Conf. on Information Technology, Computer and Electrical Engineering (ICITACEE)", "q": "Conf", "y": "2025", "ord": "4 of 6", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105029766126&origin=resultslist"}, {"t": "Comparative Analysis of Image Segmentation Methods for Porosity Evaluation of Wound Dressings Using Python and ImageJ", "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)", "q": "Conf", "y": "2025", "ord": "2 of 5", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031121050&origin=resultslist"}, {"t": "Deep learning-based decoding in non-orthogonal multiple access (NOMA) for high altitude platform systems (HAPS)", "v": "Telecommunication Systems", "q": "Q2", "y": "2025", "ord": "3 of 3", "cit": 0, "cat": "jurnal", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105006903633&origin=resultslist"}, {"t": "Adaptive Thresholding-Based Computational Analysis of Porosity in SEM Images of Poly(methyl methacrylate)", "v": "2025 9th Intl. Conf. on Instrumentation, Control and Automation (ICA 2025)", "q": "Conf", "y": "2025", "ord": "2 of 5", "cit": 0, "cat": "proc", "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-105031070959&origin=resultslist"}]}; let SINTA = window.__SINTA_FALLBACK__;
+window.__TELKOM_DONE_FB__ = {"judul": "Perancangan dan Pembuatan Prototipe Data Collection Platform (DCP) untuk Pemantauan Kondisi Ekosistem Laut dan Keanekaragaman Hayati melalui Jaringan Komunikasi Seluler", "mhs": [{"nama": "Rhaya Ardelia Sagita Wiguna"}, {"nama": "Jocelyn Michelle Laura Sinaga"}, {"nama": "Stevani Adelya Putri"}, {"nama": "Nieda Hanna Sholihah"}]}; let TELKOM_DONE = window.__TELKOM_DONE_FB__;
+
+/* ---- vitals ---- */
+const nT=DATA.topics.length;
+const nAUR=DATA.topics.filter(t=>/AUR/.test(t.kbk)).length;
+const nDZI=DATA.topics.filter(t=>/DZI/.test(t.kbk)).length;
+const nDoneTel=(typeof TELKOM_DONE!=='undefined'?TELKOM_DONE.mhs.length:0);
+const nRun=DATA.berjalan.length, nDone=DATA.selesai.length+nDoneTel, nSup=nRun+nDone;
+const vitals=[
+  {n:nT,l:"Topik ditawarkan",pct:100,c:"v1"},
+  {n:nSup,l:"Total bimbingan",pct:100,c:"v2"},
+  {n:nRun,l:"TA berjalan",pct:nRun/nSup*100,c:"v3"},
+  {n:nDone,l:"TA selesai",pct:nDone/nSup*100,c:"v4"},
+];
+document.getElementById('vitals').innerHTML=vitals.map(v=>`
+  <div class="vital ${v.c}"><div class="num">${v.n}</div><div class="lbl">${v.l}</div>
+  <div class="bar"><i style="width:${v.pct}%"></i></div></div>`).join('');
+
+/* ---- refs matcher ---- */
+function refsFor(topik){
+  // match a refs group by shared tokens with the group key
+  const toks=t=>new Set((t||'').toLowerCase().replace(/[(),\-\/]/g,' ').split(/\s+/).filter(w=>w.length>3));
+  const tt=toks(topik); let best=null,bs=0;
+  for(const k in DATA.refs){
+    const kt=toks(k); let s=0; kt.forEach(w=>{if(tt.has(w))s++});
+    if(s>bs){bs=s;best=k}
+  }
+  return best?DATA.refs[best]:[];
+}
+
+/* ---- ledger ---- */
+const ledger=document.getElementById('ledger');
+document.getElementById('tcount').textContent=`${nAUR} Instrumentasi/IoT · ${nDZI} Sinyal/Citra`;
+function kbkClass(k){return /AUR/.test(k)?'aur':'dzi'}
+function kbkShort(k){return /AUR/.test(k)?'Instrumentasi/IoT':'Sinyal/Citra'}
+
+function render(filter){
+  ledger.innerHTML='';
+  DATA.topics.filter(t=>filter==='all'||(filter==='aur'&&/AUR/.test(t.kbk))||(filter==='dzi'&&/DZI/.test(t.kbk))||(filter==='ec'&&/ya/i.test(t.ec)))
+  .forEach((t,i)=>{
+    const cls=kbkClass(t.kbk);
+    const row=document.createElement('div');
+    row.className='row '+cls; row.setAttribute('role','button'); row.setAttribute('tabindex','0'); row.setAttribute('aria-expanded','false');
+    const refs=refsFor(t.topik);
+    const qual=(t.kualifikasi||[]).filter(x=>x&&x.trim()).map(x=>`<li>${x.replace(/^\d+\.\s*/,'')}</li>`).join('');
+    const reflist=refs.map(r=>`<li>${r.ref}. <span class="src">${r.src||''} ${r.year?'('+r.year+')':''}</span></li>`).join('');
+    row.innerHTML=`
+      <div class="idx mono">${String(t.no).padStart(2,'0')}</div>
+      <div class="main">
+        <div class="top">${t.topik}</div>
+        <div class="meta">
+          <span class="tag ${cls}">${kbkShort(t.kbk)}</span>
+          <span class="chev">›</span>
+        </div>
+      </div>
+      <div class="right mono">1 mhs</div>
+      <div class="detail"><div class="detail-in">
+        <div><h4>Deskripsi</h4><p>${t.deskripsi||t.catatan||'—'}</p></div>
+        <div><h4>Hardware &amp; Kualifikasi</h4><p style="margin-bottom:8px">${t.hardware||'—'}</p><ul>${qual}</ul></div>
+        ${refs.length?`<div class="refs"><h4>Referensi (2021–2026)</h4><ol>${reflist}</ol></div>`:''}
+      </div></div>`;
+    const detail=row.querySelector('.detail');
+    const toggle=()=>{const open=detail.classList.toggle('open');row.setAttribute('aria-expanded',open)};
+    row.addEventListener('click',toggle);
+    row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+    ledger.appendChild(row);
+  });
+}
+
+/* ---- filters ---- */
+const fdefs=[['all','Semua','#0d1b2a'],['aur','Instrumentasi/IoT','#1d7874'],['dzi','Sinyal/Citra','#8c5a9e']];
+const fbox=document.getElementById('filters');
+fdefs.forEach((f,i)=>{
+  const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed',i===0);
+  b.innerHTML=`<span class="dot" style="background:${f[2]}"></span>${f[1]}`;
+  b.dataset.k=f[0];b.onclick=()=>{[...fbox.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');render(f[0])};
+  fbox.appendChild(b);
+});
+render('all');
+
+/* ---- supervision ---- */
+function rebuildSupervision(){
+const sup=document.getElementById('superv');
+const prodiTabsEl=document.getElementById('proditabs');
+const statusTabsEl=document.getElementById('statustabs');
+function stu(s,cls){return `<div class="stu ${cls}"><div class="nm">${s.nama}</div><div class="jd">${s.judul||''}</div></div>`;}
+
+// data model: prodi -> status -> html
+const telDoneHtml=`<div class="stu ok"><div class="nm" style="margin-bottom:8px;line-height:1.35">${TELKOM_DONE.judul}</div>
+  ${TELKOM_DONE.mhs.map(m=>`<div style="font-size:.9rem;padding:2px 0 2px 12px;border-left:2px solid var(--ok);margin-bottom:2px">${m.nama}</div>`).join('')}</div>`;
+const MODEL={
+  bme:{label:'S1 Teknik Biomedis', status:{
+     run:{label:'Sedang Berjalan', html:DATA.berjalan.map(s=>stu(s,'run')).join(''), n:DATA.berjalan.length},
+     done:{label:'Selesai', html:DATA.selesai.map(s=>stu(s,'ok')).join(''), n:DATA.selesai.length},
+  }},
+  tel:{label:'S1 Teknik Telekomunikasi', status:{
+     run:{label:'Sedang Berjalan', html:'', n:0},
+     done:{label:'Selesai', html:telDoneHtml, n:TELKOM_DONE.mhs.length},
+  }},
+};
+let curProdi='bme', curStatus='run';
+
+function renderStatusTabs(){
+  const st=MODEL[curProdi].status;
+  statusTabsEl.innerHTML='';
+  const keys=Object.keys(st).filter(k=>st[k].n>0);
+  if(!keys.includes(curStatus)) curStatus=keys[0];
+  keys.forEach(k=>{
+    const b=document.createElement('button');
+    b.className='ptab'; b.dataset.k=k; b.setAttribute('aria-pressed', k===curStatus);
+    b.innerHTML=`${st[k].label} <span class="pcount">${st[k].n}</span>`;
+    b.onclick=()=>{curStatus=k; renderStatusTabs(); renderPanel();};
+    statusTabsEl.appendChild(b);
+  });
+}
+function renderPanel(){
+  const s=MODEL[curProdi].status[curStatus];
+  sup.innerHTML=`<div>${s.html||'<p style="color:var(--slate);font-size:.9rem">Belum ada data.</p>'}</div>`;
+}
+function renderProdiTabs(){
+  prodiTabsEl.innerHTML='';
+  Object.keys(MODEL).forEach(k=>{
+    const total=Object.values(MODEL[k].status).reduce((a,x)=>a+x.n,0);
+    const b=document.createElement('button');
+    b.className='ptab'; b.dataset.k=k; b.setAttribute('aria-pressed', k===curProdi);
+    b.innerHTML=`${MODEL[k].label} <span class="pcount">${total}</span>`;
+    b.onclick=()=>{curProdi=k; renderProdiTabs(); renderStatusTabs(); renderPanel();};
+    prodiTabsEl.appendChild(b);
+  });
+}
+renderProdiTabs(); renderStatusTabs(); renderPanel();
+}
+rebuildSupervision();/* ---- ring ---- */
+const pct=nDone/nSup, R=38, C=2*Math.PI*R;
+document.getElementById('ring').innerHTML=`
+  <circle cx="46" cy="46" r="${R}" fill="none" stroke="#d8d2c4" stroke-width="9"/>
+  <circle cx="46" cy="46" r="${R}" fill="none" stroke="#2f8f5b" stroke-width="9"
+    stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pct)}"
+    transform="rotate(-90 46 46)"/>
+  <text x="46" y="52" text-anchor="middle" font-size="20" font-weight="600" fill="#0d1b2a" font-family="monospace">${Math.round(pct*100)}%</text>`;
+document.getElementById('bdone').textContent=`${nDone} dari ${nSup}`;
+
+document.getElementById('stamp').textContent='snapshot · '+new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+
+/* ---- publikasi & SINTA (dynamic) ---- */
+function renderPublikasi(){
+  const s=SINTA.stats||{};
+  const pubs=SINTA.pubs||[];
+  const pc=document.getElementById('pubcount');
+  if(pc) pc.textContent=`${pubs.length} publikasi`+(s.score?` · SINTA Score ${s.score}`:'');
+  const sg=document.getElementById('statgrid');
+  if(sg){
+    const cards=[['score','SINTA Score'],['score3','Score 3 Thn'],['hindex','H-Index'],['gindex','G-Index'],['artScopus','Artikel Scopus'],['cit','Sitasi']];
+    sg.innerHTML=cards.filter(c=>s[c[0]]!==undefined).map(c=>`<div class="stat"><div class="v">${s[c[0]]}</div><div class="k">${c[1]}</div></div>`).join('')
+      || `<div class="stat" style="grid-column:1/-1"><div class="k">Statistik akan tampil setelah sinkronisasi SINTA.</div></div>`;
+  }
+  const listEl=document.getElementById('publist');
+  const tabsEl=document.getElementById('pubtabs');
+  function pubRow(p){return `
+    <div class="pub">
+      <div class="yr">${p.y||''}</div>
+      <div><div class="pt">${p.url?`<a href="${p.url}" target="_blank" rel="noopener" class="plink">${p.t}</a>`:p.t}</div>
+        <div class="pv">${p.v||''}</div>
+        <div class="pm">${p.ord?('Author '+p.ord+' · '):''}${p.cit||0} sitasi</div></div>
+      <div class="qbadge q-${p.q||'Conf'}">${p.q||'Conf'}</div>
+    </div>`;}
+  const catDefs=[
+    {key:'all',label:'Semua'},
+    {key:'jurnal',label:'Jurnal Internasional'},
+    {key:'proc',label:'Proceeding Conference'},
+  ];
+  function showCat(k){
+    const rows=pubs.filter(p=>k==='all'||p.cat===k);
+    listEl.innerHTML=rows.length?rows.map(pubRow).join(''):'<p style="color:var(--slate);font-size:.9rem;padding:14px 0">Belum ada data publikasi.</p>';
+    [...tabsEl.children].forEach(b=>b.setAttribute('aria-pressed', b.dataset.k===k));
+  }
+  tabsEl.innerHTML='';
+  catDefs.forEach((c,idx)=>{
+    const n=c.key==='all'?pubs.length:pubs.filter(p=>p.cat===c.key).length;
+    if(c.key!=='all' && n===0) return;
+    const b=document.createElement('button');
+    b.className='pubtab'; b.dataset.k=c.key; b.setAttribute('aria-pressed', idx===0);
+    b.innerHTML=`${c.label} <span class="pcount">${n}</span>`;
+    b.onclick=()=>showCat(c.key);
+    tabsEl.appendChild(b);
+  });
+  showCat('all');
+  const link=document.getElementById('sintalink'); if(link) link.href=SINTA.url||'#';
+  const stamp=document.getElementById('sintastamp');
+  if(stamp && SINTA.updated) stamp.textContent='Data SINTA diperbarui: '+SINTA.updated;
+}
+
+// Muat data publikasi dari file JSON (di-update otomatis oleh GitHub Actions).
+// tampilkan data bawaan dulu (selalu jalan, termasuk saat dibuka via file://)
+renderPublikasi();
+// lalu coba refresh dari file JSON (berhasil saat di-host: GitHub Pages/Netlify)
+fetch('data/publications.json?t='+Date.now())
+  .then(r=>r.ok?r.json():Promise.reject(r.status))
+  .then(d=>{ if(d && d.pubs && d.pubs.length){ SINTA=Object.assign({}, window.__SINTA_FALLBACK__, d); renderPublikasi(); } })
+  .catch(err=>{ console.warn('Info: memakai data bawaan (fetch gagal, wajar bila dibuka langsung tanpa server):', err); });
+
+/* ---- MANUAL DATA LOADERS (topik & bimbingan) ---- */
+function currentFilterKey(){
+  var c=document.querySelector('.chip[aria-pressed="true"]');
+  return (c && c.dataset && c.dataset.k) ? c.dataset.k : 'all';
+}
+function applyTopik(d){
+  if(d && d.topics){ DATA.topics=d.topics; if(typeof render==='function'){ render(currentFilterKey()); } }
+}
+function applyBimbingan(d){
+  if(!d) return;
+  if(d.berjalan && d.berjalan.bme) DATA.berjalan=d.berjalan.bme;
+  if(d.selesai && d.selesai.bme) DATA.selesai=d.selesai.bme;
+  if(d.selesai && d.selesai.tel) TELKOM_DONE=d.selesai.tel;
+  if(typeof rebuildSupervision==='function') rebuildSupervision();
+}
+fetch('data/topik.json?t='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)applyTopik(d);}).catch(function(){});
+fetch('data/bimbingan.json?t='+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)applyBimbingan(d);}).catch(function(){});
+</script>
+</body>
+</html>

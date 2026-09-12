@@ -1,0 +1,67 @@
+{
+ "berjalan": {
+  "bme": [
+   {
+    "nama": "Mohammad Cakradeva Arhyatama",
+    "judul": "Perancangan PCB Wearable EEG Berbasis ADS1299 dan ESP32-S3 untuk Akuisisi Sinyal Otak"
+   },
+   {
+    "nama": "Syifa Nur Asfiani",
+    "judul": "Analisis Sinyal EEG untuk Deteksi Stres sebagai Dasar Pengembangan Sistem Neurofeedback"
+   },
+   {
+    "nama": "Zahra Ramadhina",
+    "judul": "Pengembangan Aplikasi Pengolahan Sinyal EEG secara Real-Time untuk Deteksi Stres dan Neurofeedback Berbasis Kecerdasan Buatan"
+   }
+  ]
+ },
+ "selesai": {
+  "bme": [
+   {
+    "nama": "Az-Zahra Puteri Nur Intan",
+    "judul": "Pengembangan Aplikasi Mobile EEG dengan Implementasi Menggunakan Transmisi Data Berbasis Bluetooth"
+   },
+   {
+    "nama": "Kirenina Fariha Safitri",
+    "judul": "Implementasi pada Aplikasi Mobile EEG untuk Deteksi Emosi dengan Transmisi Data Real-Time melalui WiFi/Internet"
+   },
+   {
+    "nama": "Lathifah Husnun",
+    "judul": "Pengembangan Sistem Deteksi Emosi Berbasis EEG melalui Integrasi Aplikasi Mobile dan Layanan Cloud"
+   },
+   {
+    "nama": "Yaumil Nadia Rahmaniar",
+    "judul": "Deteksi Stres Menggunakan Wearable EEG pada Tugas Presentasi Akademik"
+   },
+   {
+    "nama": "Rizkya Yasmin",
+    "judul": "Klasifikasi Emosi Menggunakan Wearable EEG pada Pemicu Emosi Positif dan Negatif"
+   },
+   {
+    "nama": "Adinda Shal Sabillah Kuncahyo",
+    "judul": "Deteksi Perubahan Emosi Menggunakan Wearable EEG pada Video yang Mengubah Emosi"
+   },
+   {
+    "nama": "Shally Angelita Amanda",
+    "judul": "Wearable EEG untuk Deteksi Stres dalam Kehidupan Sehari-hari: Pengujian di Lingkungan Alamiah"
+   }
+  ],
+  "tel": {
+   "judul": "Perancangan dan Pembuatan Prototipe Data Collection Platform (DCP) untuk Pemantauan Kondisi Ekosistem Laut dan Keanekaragaman Hayati melalui Jaringan Komunikasi Seluler",
+   "mhs": [
+    {
+     "nama": "Rhaya Ardelia Sagita Wiguna"
+    },
+    {
+     "nama": "Jocelyn Michelle Laura Sinaga"
+    },
+    {
+     "nama": "Stevani Adelya Putri"
+    },
+    {
+     "nama": "Nieda Hanna Sholihah"
+    }
+   ]
+  }
+ }
+}

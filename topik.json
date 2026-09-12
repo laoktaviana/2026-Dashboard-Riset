@@ -1,0 +1,109 @@
+{
+ "topics": [
+  {
+   "no": 1,
+   "kbk": "Instrumentasi, Kontrol, IoT (AUR)",
+   "topik": "Pengembangan Modul Akuisisi Multi-Biosignal Real-Time (ECG, EMG, PPG) Multi-Kanal untuk Sistem Pemantauan Kesehatan",
+   "kualifikasi": [
+    "1. Kompetensi dalam akuisisi sinyal dan pengolahan data biosignal",
+    "2. Menguasai perancangan perangkat keras (analog front-end, ADC)",
+    "3. Pengalaman pengembangan perangkat lunak dan sistem real-time",
+    "4. Dasar sinyal fisiologis (ECG, EMG, PPG)"
+   ],
+   "catatan": "Sub-topik akuisisi dari penelitian payung (Ketua Peneliti). Fokus: perancangan modul multi-kanal ECG/EMG/PPG, filtering, dan sampling real-time.",
+   "ec": "Ya",
+   "deskripsi": "Merancang modul yang menangkap tiga sinyal (ECG, EMG, PPG) sekaligus secara real-time dengan kualitas baik. Fokus di HULU: bagaimana sinyal ditangkap dengan benar. Sub-topik payung penelitian.",
+   "hardware": "Analog front-end (penguat & filter per sinyal), ADC/mikrokontroler, elektroda ECG/EMG, sensor PPG, catu daya, penyimpanan (SD/serial). Alat medis referensi untuk validasi sinyal."
+  },
+  {
+   "no": 2,
+   "kbk": "Instrumentasi, Kontrol, IoT (AUR)",
+   "topik": "Pengembangan Sistem Transmisi Data Biosignal Nirkabel Berbasis WBAN dan IoT untuk Pemantauan Kesehatan Jarak Jauh",
+   "kualifikasi": [
+    "1. Pengetahuan tentang sistem wireless dan jaringan WBAN",
+    "2. Pemahaman tentang cloud dan IoT",
+    "3. Pengalaman pengembangan perangkat lunak dan sistem real-time",
+    "4. Dasar komunikasi data dan protokol nirkabel"
+   ],
+   "catatan": "Sub-topik transmisi/konektivitas dari penelitian payung. Fokus: pengiriman data biosignal secara nirkabel (WBAN), integrasi cloud/IoT, dan dashboard pemantauan jarak jauh.",
+   "ec": "Ya",
+   "deskripsi": "Merancang sistem pengiriman data biosignal dari tubuh pasien ke penerima jarak jauh via nirkabel (WBAN) dan cloud/IoT. Fokus di HILIR: bagaimana data dikirim andal & real-time. Sub-topik inti telekomunikasi.",
+   "hardware": "Modul mikrokontroler + radio nirkabel (BLE/WiFi/LoRa), gateway/koordinator, server/cloud IoT, dashboard pemantauan. Data dari modul C1 atau data dummy/rekaman."
+  },
+  {
+   "no": 3,
+   "kbk": "Instrumentasi, Kontrol, IoT (AUR)",
+   "topik": "Rancang Bangun Sistem Pengukuran Kecepatan dan Jarak Berjalan Berbasis Sensor Optical Flow",
+   "kualifikasi": [
+    "1. Menguasai pemrograman mikrokontroler (Arduino)",
+    "2. Pemahaman komunikasi SPI dan pembacaan sensor",
+    "3. Dasar pengolahan sinyal dan analisis data",
+    "4. Kemampuan perancangan perangkat keras (elektronika)"
+   ],
+   "catatan": "Sensor didesain untuk drone; tantangan utama pada validasi ke gerak manusia (perlu pembanding IMU/jalur ukur). Cocok untuk mahasiswa yang kuat di embedded.",
+   "ec": "Ya",
+   "deskripsi": "Membangun perangkat portabel yang mengukur kecepatan dan jarak berjalan seseorang menggunakan sensor optical flow (deteksi pergerakan permukaan, seperti pada mouse) tanpa GPS. Output: gait speed dan jarak tempuh yang relevan secara klinis.",
+   "hardware": "Sensor PMW3901 (optical flow), ESP32 DevKit, sensor jarak VL53L0X (jaga jarak ke lantai), IMU MPU6050 (pembanding), baterai LiPo + TP4056, OLED (opsional), casing."
+  },
+  {
+   "no": 4,
+   "kbk": "Instrumentasi, Kontrol, IoT (AUR)",
+   "topik": "Sistem Pemantauan Paparan Partikulat (PM2.5) Personal dengan Kalibrasi untuk Penilaian Kualitas Udara Dalam Ruangan",
+   "kualifikasi": [
+    "1. Menguasai pemrograman mikrokontroler (Arduino)",
+    "2. Pemahaman pembacaan sensor analog (ADC)",
+    "3. Dasar statistika/regresi untuk kalibrasi sensor",
+    "4. Pemahaman IoT dan penyimpanan data"
+   ],
+   "catatan": "Sensor ber-LOD tinggi & dynamic range terbatas, sehingga kalibrasi wajib dan menjadi kontribusi ilmiah. Membutuhkan sensor referensi PM.",
+   "ec": "Tidak",
+   "deskripsi": "Membangun alat pemantau paparan partikulat (PM2.5) personal untuk kualitas udara dalam ruangan, dengan fokus kalibrasi agar pembacaan sensor murah menjadi akurat.",
+   "hardware": "Sensor Sharp GP2Y1010AU0F (+ resistor 150ohm & kapasitor 220uF), ESP32 DevKit, DHT22 (suhu/kelembapan), baterai + TP4056, OLED (opsional), casing. Sensor referensi PM (mis. PMS7003) untuk kalibrasi."
+  },
+  {
+   "no": 1,
+   "kbk": "Sinyal, Citra (DZI)",
+   "topik": "Deteksi Stres Kognitif Berbasis Fusi Sinyal EEG dan Sinyal Fisiologis Multimodal Menggunakan Machine Learning",
+   "kualifikasi": [
+    "1. Pengetahuan dalam bidang EEG dan neurosignal",
+    "2. Kompetensi akuisisi dan pengolahan sinyal biosignal",
+    "3. Keahlian pemrograman (Python) dan machine learning",
+    "4. Pemahaman sinkronisasi dan fusi data multimodal"
+   ],
+   "catatan": "Paling sinkron dengan riset lab (EEG stress detection, ZFN). Menggunakan. Tantangan pada sinkronisasi & fusi dua modalitas.",
+   "ec": "Ya",
+   "deskripsi": "Mengembangkan sistem deteksi stres kognitif dengan menggabungkan sinyal otak (EEG) dan sinyal fisiologis perifer (PPG, EDA, suhu kulit) menggunakan machine learning. Fokus pada fusi multimodal - pelengkap riset EEG murni yang sudah berjalan.",
+   "hardware": "OpenBCI EEG Headband Kit (akuisisi EEG), EmotiBit (PPG, EDA, suhu, IMU), laptop untuk perekaman & pemrosesan. (Alat sudah tersedia.)"
+  },
+  {
+   "no": 2,
+   "kbk": "Sinyal, Citra (DZI)",
+   "topik": "Sistem Deteksi Stres Berbasis Sinyal Fisiologis Wearable (EDA, PPG, Suhu Kulit) Menggunakan Machine Learning",
+   "kualifikasi": [
+    "1. Pengetahuan dalam bidang biometrik dan sensing",
+    "2. Pengalaman dalam teknologi wearable",
+    "3. Keahlian pemrograman (Python) dan pengolahan data",
+    "4. Kompetensi machine learning dasar"
+   ],
+   "catatan": "Paling ringan di Kelompok B (tanpa kompleksitas EEG). Hanya menggunakan. Cocok untuk mahasiswa dengan fokus ML/data.",
+   "ec": "Ya",
+   "deskripsi": "Mengembangkan sistem deteksi stres hanya dari sinyal fisiologis wearable (tanpa EEG), memanfaatkan EmotiBit + machine learning. Paling ringan di kelompok riset biosignal.",
+   "hardware": "EmotiBit (EDA, PPG/BVP, suhu kulit, IMU), laptop untuk perekaman & pemrosesan. (Alat sudah tersedia.)"
+  },
+  {
+   "no": 3,
+   "kbk": "Sinyal, Citra (DZI)",
+   "topik": "Pengembangan Algoritma Deteksi Dini Gangguan Kesehatan Berbasis Sinyal Multi-Biosignal (ECG, EMG, PPG) Menggunakan Machine Learning",
+   "kualifikasi": [
+    "1. Kompetensi dalam pengolahan sinyal dan ekstraksi fitur biosignal",
+    "2. Keahlian pemrograman (Python) dan machine learning",
+    "3. Pemahaman analisis data dan klasifikasi",
+    "4. Dasar sinyal fisiologis (ECG, EMG, PPG)"
+   ],
+   "catatan": "Sub-topik analitik/deteksi dini dari penelitian payung. Fokus: ekstraksi fitur multi-biosignal, deteksi anomali/dini gangguan kesehatan dengan ML.",
+   "ec": "Ya",
+   "deskripsi": "Mengembangkan algoritma yang menganalisis sinyal ECG/EMG/PPG untuk mendeteksi dini anomali/gangguan kesehatan menggunakan machine learning. Sub-topik analitik payung penelitian.",
+   "hardware": "Laptop/GPU untuk pemrosesan & ML. Data biosignal dari modul C1, dataset publik (mis. MIT-BIH), atau data rekaman."
+  }
+ ]
+}
